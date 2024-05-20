@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quizzes', function (Blueprint $table) {
-            $table->id();
-            $table->string('image1')->nullable();
-            $table->string('image2')->nullable();
-            $table->integer('status')->default(2);
-            $table->timestamps();
+        Schema::table('quizzes', function (Blueprint $table) {
+            $table->dateTime('publish_time')->nullable()->after('status');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quizzes');
+        Schema::table('quizzes', function (Blueprint $table) {
+            //
+        });
     }
 };

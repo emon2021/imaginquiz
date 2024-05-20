@@ -16,9 +16,9 @@ class IsUser
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        if(auth()?->user()?->role != 1)
+        if(auth()?->user()?->role == 1)
         {
-            return redirect(route('home'));
+            return redirect(route('admin.home'));
         }else{
             return $response;
         }

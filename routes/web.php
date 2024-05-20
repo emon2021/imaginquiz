@@ -21,8 +21,14 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('is_admin');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('is_user');
 
 
 //  Admin Routes
-Route::get('/admin/home',[AdminController::class,'index'])->name('admin.home')->middleware('is_user');
+Route::get('/admin/home',[AdminController::class,'index'])->name('admin.home')->middleware('is_admin');
+
+Route::controller(App\Http\Controllers\QuizController::class)->middleware(['auth','is_admin'])->group(function(){
+    Route::get('/admin/quiz','create')->name('admin.quiz.create');
+    Route::post('/admin/quiz/store','store')->name('admin.quiz.store');
+    Route::get('/admin/quiz/view','index')->name('admin.quiz.index');
+});

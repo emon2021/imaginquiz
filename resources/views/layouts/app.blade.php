@@ -12,7 +12,12 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
+
+    @stack('css')
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -57,10 +62,10 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     @if(auth()->user()?->role == 1)
-                                        <a class="dropdown-item" href="">
+                                        <a class="dropdown-item" href="{{route('admin.quiz.create')}}">
                                             Add Quiz
                                         </a>
-                                        <a class="dropdown-item" href="">
+                                        <a class="dropdown-item" href="{{route('admin.quiz.index')}}">
                                             All Quiz
                                         </a>
                                     @else
@@ -114,4 +119,55 @@
         </main>
     </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- DataTables JS Links  & Plugins -->
+<script src="{{asset('public')}}/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="{{asset('public')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="{{asset('public')}}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="{{asset('public')}}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="{{asset('public')}}/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="{{asset('public')}}/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="{{asset('public')}}/plugins/jszip/jszip.min.js"></script>
+<script src="{{asset('public')}}/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="{{asset('public')}}/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="{{asset('public')}}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="{{asset('public')}}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="{{asset('public')}}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<!-----------DataTables Default Scripts----------->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+
+<!------------dropify.js----------->
+<script type="text/javascript">
+    $('.dropify').dropify({
+        messages: {
+            'default': 'Select Image',
+            'replace': 'Select Image',
+            'remove':  'Remove',
+            'error':   'Ooops, something wrong happended.'
+        }
+    });
+
+    
+</script>
+
+@stack('scripts')
 </html>

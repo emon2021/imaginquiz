@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Quiz extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'image1',
+        'image2',
+        'status',
+    ];
 }
