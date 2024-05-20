@@ -20,8 +20,8 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand" href="#">
+                    {{ __('Quiz App') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -36,6 +36,43 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        @auth
+                            <li class="nav-item">
+                                @if(auth()->user()?->role == 1)
+                                    <a class="nav-link active" href="{{ route('admin.home') }}">{{ __('Admin Dashboard') }}</a>
+                                @else
+                                    <a class="nav-link active" href="{{ route('home') }}">{{ __('Dashboard') }}</a>
+                                @endif
+                            </li>
+                            <li class="nav-item dropdown">
+                                @if(auth()->user()?->role == 1)
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        Quiz View
+                                    </a>
+                                @else
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        Play Quiz
+                                    </a>
+                                @endif
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    @if(auth()->user()?->role == 1)
+                                        <a class="dropdown-item" href="">
+                                            Add Quiz
+                                        </a>
+                                        <a class="dropdown-item" href="">
+                                            All Quiz
+                                        </a>
+                                    @else
+                                        <a class="dropdown-item" href="">
+                                            Play Games
+                                        </a>
+                                    @endif
+
+                                </div>
+                            </li>
+                        @endauth
+
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
