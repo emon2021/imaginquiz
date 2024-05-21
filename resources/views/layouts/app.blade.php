@@ -20,6 +20,24 @@
     @stack('css')
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <style type="text/css">
+        #toast-container > .toast-success {
+            color: rgb(0, 163, 49);
+        }
+
+        #toast-container > .toast-info {
+            color: blue;
+        }
+
+        #toast-container > .toast-warning {
+            color: orange;
+        }
+
+        #toast-container > .toast-error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -71,6 +89,9 @@
                                     @else
                                         <a class="dropdown-item" href="{{route('user.game')}}">
                                             Play Games
+                                        </a>
+                                        <a class="dropdown-item" href="{{route('user.overview')}}">
+                                            Quiz Overview
                                         </a>
                                     @endif
 

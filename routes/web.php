@@ -39,4 +39,5 @@ Route::post('/quiz/answer', [QuizController::class,'answer'])->name('quiz.answer
 //  User Routes 
 Route::controller(App\Http\Controllers\UserController::class)->middleware(['auth'])->group(function(){
     Route::get('/user/quiz/game','create')->name('user.game');
+    Route::get('/user/quiz/overview','overview')->name('user.overview');
 });

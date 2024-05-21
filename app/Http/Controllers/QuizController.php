@@ -97,11 +97,13 @@ class QuizController extends Controller
         if($quiz->status == 1)
         {
             $quiz->status = 2;
+            $quiz->publish_time = null;
         }elseif($quiz->status == 2)
         {
             $quiz->status = 1;
+            $quiz->publish_time = Carbon::now();
         }
-        $quiz->publish_time = Carbon::now();
+        
         $quiz->update();
 
         return response()->json('Quiz status updated!');
@@ -141,7 +143,7 @@ class QuizController extends Controller
                                     'fun_name' => $request->fun_name,
                                 ]);
                             }
-                            return response()->json('Answer Submitted!');
+                            return response()->json(['success'=>'Answer Submitted!']);
                             
                         }else{
                             return response()->json(['attempt_error'=>'Your already submitted maximum time.']);

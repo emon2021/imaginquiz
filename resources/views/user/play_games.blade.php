@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @push('css')
+    
         <style type="text/css">
             ul.pagination {
                 float: right !important;
@@ -65,9 +66,9 @@
                                             type="submit">Submit</button>
                                     </div>
                                 </form>
-                                <div class="alert alert-success d-none" id="success"></div>
-                                <div class="alert alert-danger d-none" id="attempt"></div>
-                                <div class="alert alert-danger d-none" id="limit"></div>
+                                <div class="alert alert-success d-none success"></div>
+                                <div class="alert alert-danger d-none attempt"></div>
+                                <div class="alert alert-danger d-none limit"></div>
                                 
                             </div>
 
@@ -82,6 +83,7 @@
 @endsection
 
 @push('scripts')
+
     <script>
         $(document).ready(function() {
             $('.plus_button').click(function() {
@@ -97,11 +99,9 @@
 
             //  quiz answer form submission
 
-            $('body').on('click','.submitBtn',function(){
-                $('.quizAnswer').submit();
-            });
+            
 
-            $('.quizAnswer').on('submit', function(e) {
+            $('body').on('submit','.quizAnswer', function(e) {
                 e.preventDefault();
                 let url = $(this).attr('action');
                 let data = new FormData($(this)[0]);
@@ -114,22 +114,20 @@
                     success: function(response) {
                         if(response.success)
                         {
-                            $('#success').removeClass('d-none');
-                            $('#success').text(response.success).addClass('d-block');
+                            toastr.success(response.success);
                         }
                         if(response.attempt_error)
                         {
-                            $('#attempt').removeClass('d-none');
-                            $('#attempt').text(response.attempt_error).addClass('d-block');
+                            toastr.error(response.attempt_error);
                         }
                         if(response.limit_error)
                         {
-                            $('#limit').removeClass('d-none');
-                            $('#limit').text(response.limit_error).addClass('d-block');
+                            toastr.error(response.limit_error);
                         }
-                                          $(this)[0].reset();
+                        
                     },
                 });
+                $(this).closest('.quizAnswer')[0].reset();
             });
 
             
