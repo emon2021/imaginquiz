@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Quiz;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
 
 class QuizController extends Controller
 {
@@ -102,5 +105,52 @@ class QuizController extends Controller
         $quiz->update();
 
         return response()->json('Quiz status updated!');
+    }
+
+    //  submit quiz answer
+    public function answer(Request $request)
+    {
+        
+        $request->validate([
+            'quiz_id' => 'required|integer',
+            'fun_name' => 'required|min:3|string',
+            'single_word.*' => 'required|min:3|string',
+        ]);
+        
+            $answer = Answer::where('quiz_id',$request->quiz_id)
+                            ->where('user_id',Auth::id())->count();
+            // dd($answer);
+        
+                $multiple_answer = [];
+                foreach($request->single_word as $word)
+                {
+                    array_push($multiple_answer,$word);
+                }
+                
+                $array_count = count($multiple_answer);
+                if($array_count <= 5)
+                {
+                        if($answer <= 4)
+                        {
+                            foreach($request->single_word as $word)
+                            {
+                                Answer::create([
+                                    'quiz_id' => $request->quiz_id,
+                                    'user_id' => Auth::id(),
+                                    'single_word' => $word,
+                                    'fun_name' => $request->fun_name,
+                                ]);
+                            }
+                            return response()->json('Answer Submitted!');
+                            
+                        }else{
+                            return response()->json(['attempt_error'=>'Your already submitted maximum time.']);
+                        }
+                    
+                }else{
+                    return response()->json(['limit_error'=>'You can not submit more than 5 words.']);
+                }
+            
+        
     }
 }

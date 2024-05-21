@@ -13,4 +13,6 @@ class Quiz extends Model
         'image2',
         'status',
     ];
+
+    
 }

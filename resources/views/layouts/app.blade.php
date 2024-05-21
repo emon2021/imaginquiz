@@ -50,7 +50,7 @@
                                 @endif
                             </li>
                             <li class="nav-item dropdown">
-                                @if(auth()->user()?->role == 1)
+                                @if(auth()?->user()?->role == 1)
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         Quiz View
                                     </a>
@@ -69,7 +69,7 @@
                                             All Quiz
                                         </a>
                                     @else
-                                        <a class="dropdown-item" href="">
+                                        <a class="dropdown-item" href="{{route('user.game')}}">
                                             Play Games
                                         </a>
                                     @endif
