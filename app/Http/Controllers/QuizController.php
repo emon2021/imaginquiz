@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
 
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class QuizController extends Controller
         $request->validate([
             'image1' => 'required|image|max:3000',
             'image2' => 'required|image|max:3000',
+            'expired_time' => 'required|integer|max:9999'
         ]);
 
         try{
@@ -37,6 +39,7 @@ class QuizController extends Controller
 
                 $quiz->image1 = $path.$image1_name;
                 $quiz->image2 = $path.$image2_name;
+                $quiz->expired_time = $request->expired_time;
                 $quiz->save();
 
                 return response()->json('Quiz Added Successfull');
@@ -73,15 +76,31 @@ class QuizController extends Controller
                 ->editColumn('status',function($data){
                     if($data->status == 1)
                     {
-                        return "<a>Published</a>";
+                        return '<a href="javascript:void(0)" data-id='.$data->id.' class="btn btn-success status"> Published </a>';
                     }elseif($data->status == 2)
                     {
-                        return '<a href="#" class="btn btn-success"> Unpublished </a>';
+                        return '<a href="javascript:void(0)" data-id='.$data->id.' class="btn btn-primary status"> Unpublished </a>';
                     }
                 })
                 ->rawColumns(['action','image1','image2','status'])
                 ->make(true);
         }
         return view('admin.quiz.index');
+    }
+
+    public function update_status(Request $request,$id)
+    {
+        $quiz = Quiz::find($id);
+        if($quiz->status == 1)
+        {
+            $quiz->status = 2;
+        }elseif($quiz->status == 2)
+        {
+            $quiz->status = 1;
+        }
+        $quiz->publish_time = Carbon::now();
+        $quiz->update();
+
+        return response()->json('Quiz status updated!');
     }
 }

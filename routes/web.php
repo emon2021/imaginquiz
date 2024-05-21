@@ -31,4 +31,5 @@ Route::controller(App\Http\Controllers\QuizController::class)->middleware(['auth
     Route::get('/admin/quiz','create')->name('admin.quiz.create');
     Route::post('/admin/quiz/store','store')->name('admin.quiz.store');
     Route::get('/admin/quiz/view','index')->name('admin.quiz.index');
+    Route::get('/admin/quiz/status/{id}','update_status');
 });

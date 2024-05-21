@@ -86,4 +86,23 @@
 </script>
 
 <!---------- -/ End of Page specific scripts ---------->   
+
+
+<script>
+    $(document).ready(function() {
+        $('body').on('click','.status',function(e){
+            e.preventDefault();
+            let get_id = $(this).data('id');
+            $.ajax({
+               type: 'GET',
+               url: 'status/'+get_id,
+               success: function(response){
+                   toastr.success(response);
+                   table.ajax.reload();
+               },
+               
+            });
+        });
+    })
+</script>
 @endpush
