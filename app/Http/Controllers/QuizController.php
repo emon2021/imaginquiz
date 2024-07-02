@@ -101,7 +101,7 @@ class QuizController extends Controller
         }elseif($quiz->status == 2)
         {
             $quiz->status = 1;
-            $quiz->publish_time = Carbon::now();
+            $quiz->publish_time = Carbon::now()->timezone('Asia/Dhaka');
         }
         
         $quiz->update();
@@ -142,6 +142,11 @@ class QuizController extends Controller
                                     'single_word' => $word,
                                     'fun_name' => $request->fun_name,
                                 ]);
+                                // if(in_array($word , $multiple_answer))
+                                // {
+                                //     $word_count = array_count_values($word);
+                                //     if(exis)
+                                // }
                             }
                             return response()->json(['success'=>'Answer Submitted!']);
                             

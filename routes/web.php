@@ -40,4 +40,5 @@ Route::post('/quiz/answer', [QuizController::class,'answer'])->name('quiz.answer
 Route::controller(App\Http\Controllers\UserController::class)->middleware(['auth'])->group(function(){
     Route::get('/user/quiz/game','create')->name('user.game');
     Route::get('/user/quiz/overview','overview')->name('user.overview');
+    Route::get('/user/quiz/top-answer/{id}','top_answer')->name('user.top_answer');
 });

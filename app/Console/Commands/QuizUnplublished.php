@@ -26,21 +26,22 @@ class QuizUnplublished extends Command
      * Execute the console command.
      */
     public function handle()
-    {
-        $quiz = Quiz::all();
-        foreach ($quiz as $q) {
-            if ($q->status == 1) {
-                $publish_time = $q->publish_time;
-                $expired_time = $q->expired_time;
+{
+    // Get all quizzes that are currently published
+    $quizzes = Quiz::where('status', 1)->get();
+    $now = Carbon::now()->timezone('Asia/Dhaka');
 
-                $time_limit = Carbon::parse($publish_time)->addHours($expired_time);
+    foreach ($quizzes as $quiz) {
+        $publish_time = Carbon::parse($quiz->publish_time)->timezone('Asia/Dhaka');
+        $time_limit = $publish_time->addMinutes(2);
 
-                if ($publish_time < $time_limit) {
-                    $q->status = 2;
-                    $q->publish_time = null;
-                    $q->update();
-                }
-            }
+        // If the current time is past the expiration time, unpublish the quiz
+        if ($now->greaterThan($time_limit)) {
+            $quiz->status = 2;
+            $quiz->publish_time = null;
+            $quiz->update(); 
         }
     }
+}
+
 }

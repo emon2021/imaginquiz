@@ -9,7 +9,8 @@
                         <table id="table" class="table table-striped">
                             <thead>
                                 <th>SL</th>
-                                <th>Quiz Date</th>
+                                <th>Name</th>
+                                <th>Top Answer</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>
@@ -46,7 +47,6 @@
                 "searching": true,
                 //  getting the route using ajax and declare request type
                 "ajax": {
-                    "url": "{{ route('user.overview') }}",
                     "type": 'GET',
                 },
                 //  push data to all the table columns
@@ -57,8 +57,12 @@
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'created_at',
-                        name: 'created_at',
+                        data: 'name',
+                        name: 'name',
+                    },
+                    {
+                        data: 'single_word',
+                        name: 'single_word',
                     },
                     //  here added orderable and searchable property to make table orderable and searchable
                     {
@@ -77,17 +81,3 @@
 </script>
 
 <!---------- -/ End of Page specific scripts ---------->   
-<script>
-    $(document).ready(function() {
-        $('body').on('click','.overview',function(e){
-            let get_id = $(this).attr('href');
-            $.ajax({
-                url: get_id,
-                type: "GET",
-                success: function(response) {
-                    
-                }
-            });
-        });
-    });
-</script>
